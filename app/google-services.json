@@ -1,0 +1,49 @@
+{
+  "project_info": {
+    "project_number": "309982789711",
+    "firebase_url": "https://quizzapp-2390a-default-rtdb.firebaseio.com",
+    "project_id": "quizzapp-2390a",
+    "storage_bucket": "quizzapp-2390a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:309982789711:android:35c1b4c8a31a543b68ea3a",
+        "android_client_info": {
+          "package_name": "com.example.quizuser"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDIGHjD9z06oX6JiZoeAn5VLlDSwF4HXbE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:309982789711:android:317e23adee2e676268ea3a",
+        "android_client_info": {
+          "package_name": "com.example.quizzapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDIGHjD9z06oX6JiZoeAn5VLlDSwF4HXbE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
