@@ -50,6 +50,9 @@ public class QuestionActivity extends AppCompatActivity {
         set = getIntent().getIntExtra("setNum",1);
 
         list = new ArrayList<>();
+        
+        resetTimer();
+        timer.start();
 
         database.getReference().child("Sets").child(categoryName).child("questions")
                 .orderByChild("setNum").equalTo(set)
@@ -91,7 +94,7 @@ public class QuestionActivity extends AppCompatActivity {
 
                                         if(position == list.size()){
                                             Intent intent = new Intent(QuestionActivity.this,ScoreActivity.class);
-                                            intent.putExtra("score",score);
+                                            intent.putExtra("correctAnsw",score);
                                             intent.putExtra("totalQuestion",list.size());
                                             startActivity(intent);
                                             finish();
@@ -123,6 +126,25 @@ public class QuestionActivity extends AppCompatActivity {
                         Toast.makeText(QuestionActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+
+    private void resetTimer() {
+        
+        
+        timer = new CountDownTimer(30000,1000) {
+            @Override
+            public void onTick(long l) {
+                
+                binding.timer.setText(String.valueOf(l/1000));
+                
+                
+            }
+
+            @Override
+            public void onFinish() {
+                Toast.makeText(QuestionActivity.this, "Time out", Toast.LENGTH_SHORT).show();
+            }
+        };
     }
 
     private void enableOption(boolean enable) {

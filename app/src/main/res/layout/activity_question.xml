@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#E5E1FB"
+    android:background="@color/white"
     tools:context=".QuestionActivity">
 
     <ImageView
@@ -13,7 +13,6 @@
         android:layout_height="30dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:src="@tools:sample/avatars"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/timer" />
@@ -135,7 +134,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="16dp"
-        app:cardBackgroundColor="#374CB3"
+        app:cardBackgroundColor="@color/blue"
         app:cardCornerRadius="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -160,8 +159,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="24dp"
-        android:background="@drawable/btn_next_back"
+        android:background="@color/blue"
         android:text="Next"
+        android:textColor="@color/white"
         android:enabled="false"
         android:alpha="0.3"
         android:textAllCaps="false"
