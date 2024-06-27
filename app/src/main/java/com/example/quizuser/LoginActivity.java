@@ -94,7 +94,7 @@ public class LoginActivity extends AppCompatActivity {
                         Toast.makeText(LoginActivity.this, "Logged in successfully", Toast.LENGTH_SHORT).show();
                         // open user profile
                         //start UserProfileActivity
-                        startActivity(new Intent(LoginActivity.this,TestActivity.class));
+                        startActivity(new Intent(LoginActivity.this,HomeActivity.class));
                         finish();
                     } else{
                         firebaseUser.sendEmailVerification();
@@ -159,7 +159,7 @@ public class LoginActivity extends AppCompatActivity {
             Toast.makeText(LoginActivity.this, "Already logged in", Toast.LENGTH_SHORT).show();
 
             //start UserProfileActivity
-            startActivity(new Intent(LoginActivity.this,TestActivity.class));
+            startActivity(new Intent(LoginActivity.this,HomeActivity.class));
             finish();
         }
         else {

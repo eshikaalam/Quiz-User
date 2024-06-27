@@ -1,3 +1,65 @@
 <resources>
-    <string name="app_name">Quiz User</string>
+    <string name="app_name">Quizz</string>
+    <string name="home">Home</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_google_map">GoogleMap</string>
+    <string-array name="array_bangladesh_divisions">
+        <item>Select Your Division</item>
+        <item>Barisal</item>
+        <item>Chittagong</item>
+        <item>Dhaka</item>
+        <item>Khulna</item>
+        <item>Mymensingh</item>
+        <item>Rajshahi</item>
+        <item>Rangpur</item>
+        <item>Sylhet</item>
+    </string-array>
+
+    <string-array name="array_default_districts">
+        <item>Select Your Districts</item>
+    </string-array>
+
+    <string-array name="array_districts_barisal">
+        <item>Select Your District</item>
+        <item> Barisal</item>
+        <item>Patuakhali</item>
+        <item>Barguna</item>
+        <item>Pirojpur</item>
+        <item>Bhola</item>
+        <item>Jhalokati </item>
+    </string-array>
+
+    <string-array name="array_districts_chittagong">
+        <item>Select Your District</item>
+        <item>Bandarban</item>
+        <item>Brahmanbaria</item>
+        <item>Chandpur</item>
+        <item>Chittagong</item>
+        <item>Comilla</item>
+        <item>Coxs Bazar</item>
+        <item>Feni</item>
+        <item>Khagrachari</item>
+        <item>Lakshmipur</item>
+        <item>Noakhali</item>
+        <item>Rangamati</item>
+    </string-array>
+
+    <string-array name="array_districts_dhaka">
+        <item>Select Your District</item>
+        <item>Dhaka</item>
+        <item>Faridpur</item>
+        <item>Gazipur</item>
+        <item>Gopalganj</item>
+        <item>Kishoreganj</item>
+        <item>Madaripur</item>
+        <item>Manikganj</item>
+        <item>Munshiganj</item>
+        <item>Narayanganj</item>
+        <item>Narsingdi</item>
+        <item>Rajbari</item>
+        <item>Shariatpur</item>
+        <item>Tangail</item>
+    </string-array>
+    <string name="title_activity_my_google_map">MyGoogleMap</string>
 </resources>
