@@ -1,16 +1,91 @@
 .circle {
-    width: 100px;
-    height: 100px;
-    background-color: rgb(219, 230, 14);
-    border-radius: 50px;
+    width: 60px;
+    height: 60px;
+    background-color: rgb(255, 204, 0);
+    border-radius: 0;
     position: absolute;
-    left: 0;
-    top: 60%;
-    transform: translateY(-50%);
-  }
-  .boddy{
-    background-color: rgb(1, 30, 43);
-  }
+    left: 50%; /* Position at 50% from the left */
+    transform: translateX(-50%);
+    animation-timing-function: ease-in-out;
+    animation: moveDown 2s ease-in-out infinite, scaleAndRotate 2s ease-in-out infinite; /* Combined animations */
+}
+.circle1 {
+    left: 60px;
+    top: 0; /* Start at the top */
+    background-color: rgb(255, 255, 224);
+    animation: moveDown 2s infinite; /* Falling down */
+    animation-delay: 1s;
+}
+
+.circle2 {
+    left: 40px;
+    top: 0; /* Start at the top */
+    background-color: rgb(72, 61, 139);
+    animation: moveLeft 3s infinite; /* Falling down */
+}
+
+.circle3 {
+    left: 50px;
+    top: 0; /* Start at the top */
+    animation: moveLeft 2s infinite; /* Move horizontally while falling */
+    background-color: rgb(169, 169, 169);
+}
+
+/* Define the keyframes for the animation */
+@keyframes moveDown {
+    0% {
+        top: 0; /* Start at the top */
+        left: 50px;
+        transform: translateY(0) rotate(0deg); /* Reset transform */
+        opacity: 1; /* Fully visible */
+    }
+    50% {
+        top: 100%; /* Move to the bottom */
+        left:50px;
+        transform: translateY(100px) rotate(360deg); /* Move down and rotate */
+        opacity: 0.8; /* Slightly transparent */
+    }
+    100% {
+        top: 0; /* Reset to the top */
+        left: 50px;
+        transform: translateY(0) rotate(0deg); /* Reset transform */
+        opacity: 1; /* Fully visible */
+    }
+}
+@keyframes scaleAndRotate {
+    0%, 100% {
+        transform: scale(1) rotate(0deg); /* Original size and no rotation */
+    }
+    50% {
+        transform: scale(1.2) rotate(180deg); /* Scale up and rotate */
+    }
+}
+
+@keyframes moveRight {
+    0% {
+        left: 50px; /* Start at the left */
+        top: 0; /* Start at the top */
+    }
+    100% {
+        left: 50%; /* Move to the right */
+        top: 100%; /* Move to the bottom */
+        transform: translateX(30%); /* Adjust for proper alignment */
+    }
+}
+@keyframes moveLeft {
+    0% {
+        left: 50px; /* Start at the left */
+        top: 0; /* Start at the top */
+    }
+    100% {
+        left: 100%; /* Move to the right */
+        top: 100%; /* Move to the bottom */
+        transform: translateX(30%); /* Adjust for proper alignment */
+    }
+}
+.boddy {
+    background: linear-gradient(to bottom,  rgb(28, 107, 160), rgb(211, 211, 211));
+}
   #position{
     margin-top: 400px;
   }

@@ -56,12 +56,25 @@ public class RegisterActivity extends AppCompatActivity {
     private RadioGroup radioGroupRegisterGender;
     private RadioButton radioButtonRegisterGenderSelected;
     private DatePickerDialog picker;
+    FirebaseAuth mAuth;
+    FirebaseUser currentUser;
 
     private Handler handler = new Handler();
     private Runnable usernameCheckRunnable;
     private static final long USERNAME_CHECK_DELAY = 1000;
 
     private static final String TAG = "RegisterActivity";
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        currentUser = mAuth.getCurrentUser();
+        if (currentUser != null && currentUser.isEmailVerified()) {
+            Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+            startActivity(intent);
+            finish();
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +86,7 @@ public class RegisterActivity extends AppCompatActivity {
         }
 
         Toast.makeText(RegisterActivity.this, "You can register now", Toast.LENGTH_SHORT).show();
-
+        mAuth = FirebaseAuth.getInstance();
         db = FirebaseDatabase.getInstance("https://quizzapp-2390a-default-rtdb.firebaseio.com/");
 
         progressBar = findViewById(R.id.progessBar);
