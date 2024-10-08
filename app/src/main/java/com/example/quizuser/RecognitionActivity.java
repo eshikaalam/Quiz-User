@@ -86,17 +86,15 @@ public class RecognitionActivity extends AppCompatActivity {
                 try {
                     MobilenetV110224Quant model = MobilenetV110224Quant.newInstance(RecognitionActivity.this);
 
-                    // Creates inputs for reference.
                     TensorBuffer inputFeature0 = TensorBuffer.createFixedSize(new int[]{1, 224, 224, 3}, DataType.UINT8);
                     bitmap = Bitmap.createScaledBitmap(bitmap, 224,224,true);
                     inputFeature0.loadBuffer(TensorImage.fromBitmap(bitmap).getBuffer());
 
-                    // Runs model inference and gets result.
+
                     MobilenetV110224Quant.Outputs outputs = model.process(inputFeature0);
                     TensorBuffer outputFeature0 = outputs.getOutputFeature0AsTensorBuffer();
 
                     result.setText(labels[getMax(outputFeature0.getFloatArray())]+" ");
-                    // Releases model resources if no longer used.
                     model.close();
                 } catch (IOException e) {
                     // TODO Handle the exception
@@ -135,21 +133,24 @@ public class RecognitionActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if(resultCode == 10){
-            if(data!=null){
-                Uri uri = data.getData();
-                try {
-                    bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(),uri);
-                    imageView.setImageBitmap(bitmap);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(resultCode == RESULT_OK) { // Ensure the result is OK
+            if(requestCode == 10) {
+                if(data != null) {
+                    Uri uri = data.getData();
+                    try {
+                        bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
+                        imageView.setImageBitmap(bitmap);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
+            } else if(requestCode == 12) {
+                bitmap = (Bitmap) data.getExtras().get("data");
+                imageView.setImageBitmap(bitmap);
             }
         }
-        else if(requestCode == 12){
-            bitmap = (Bitmap) data.getExtras().get("data");
-            imageView.setImageBitmap(bitmap);
-        }
-        super.onActivityResult(requestCode, resultCode, data);
     }
+
 }

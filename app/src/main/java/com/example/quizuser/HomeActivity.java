@@ -52,6 +52,7 @@ public class HomeActivity extends AppCompatActivity {
 
         Button buttonStart = findViewById(R.id.btn_start);
         Button buttonRecognition = findViewById(R.id.btn_recognition);
+        Button btnProfile = findViewById(R.id.custom);
         buttonStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -64,6 +65,14 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(HomeActivity.this, RecognitionActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        btnProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(HomeActivity.this,RestActivity2.class);
                 startActivity(intent);
             }
         });

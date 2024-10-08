@@ -89,13 +89,13 @@ public class RatingFragment extends Fragment implements CommentAdapter.OnClickLi
         FloatingActionButton postComment = view.findViewById(R.id.post_comment);
         comment = view.findViewById(R.id.comment);
 
-        //next button click listener
+
         Button nextButton = view.findViewById(R.id.nextButton);
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (startPosition < mCommentList.size() - 1) { // Check if there are more comments to show
-                    startPosition += 5; // Increment end position by 5
+                if (startPosition < mCommentList.size() - 1) {
+                    startPosition += 5;
                     loadComments();
                 }
             }
@@ -356,7 +356,7 @@ public class RatingFragment extends Fragment implements CommentAdapter.OnClickLi
     }
 
 
-    //pagination
+
     private void loadComments() {
         startPosition = (currentPage - 1) * commentsPerPage;
         listenForCommentUpdates(commentsPerPage, startPosition, newComments -> {

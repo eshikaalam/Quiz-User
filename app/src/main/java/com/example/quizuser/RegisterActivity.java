@@ -3,10 +3,7 @@ package com.example.quizuser;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
@@ -35,7 +32,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.Calendar;
@@ -43,7 +39,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class RegisterActivity extends AppCompatActivity {
-    FirebaseDatabase db;
+
     private String selectDivisions,  selectDistricts;
     private TextView tvDivisionSpinner, tvDistrictSpinner;
     private Spinner divisionSpinner, districtSpinner;
@@ -56,25 +52,8 @@ public class RegisterActivity extends AppCompatActivity {
     private RadioGroup radioGroupRegisterGender;
     private RadioButton radioButtonRegisterGenderSelected;
     private DatePickerDialog picker;
-    FirebaseAuth mAuth;
-    FirebaseUser currentUser;
-
-    private Handler handler = new Handler();
-    private Runnable usernameCheckRunnable;
-    private static final long USERNAME_CHECK_DELAY = 1000;
 
     private static final String TAG = "RegisterActivity";
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        currentUser = mAuth.getCurrentUser();
-        if (currentUser != null && currentUser.isEmailVerified()) {
-            Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
-            startActivity(intent);
-            finish();
-        }
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,8 +65,6 @@ public class RegisterActivity extends AppCompatActivity {
         }
 
         Toast.makeText(RegisterActivity.this, "You can register now", Toast.LENGTH_SHORT).show();
-        mAuth = FirebaseAuth.getInstance();
-        db = FirebaseDatabase.getInstance("https://quizzapp-2390a-default-rtdb.firebaseio.com/");
 
         progressBar = findViewById(R.id.progessBar);
         editTextRegisterFullName = findViewById(R.id.editText_register_full_name);
@@ -96,8 +73,7 @@ public class RegisterActivity extends AppCompatActivity {
         editTextRegisterMobile = findViewById(R.id.editText_register_mobile);
         editTextRegisterPwd = findViewById(R.id.editText_register_password);
         editTextRegisterConfirmPwd = findViewById(R.id.editText_register_confirm_password);
-        editTextRegisterUsername = findViewById(R.id.editText_register_username); //editTextUserName
-        editTextRegisterUsername.addTextChangedListener(usernameTextWatcher);
+        editTextRegisterUsername = findViewById(R.id.editText_register_username);
 
         radioGroupRegisterGender = findViewById(R.id.radio_group_register_gender);
         radioGroupRegisterGender.clearCheck();
@@ -207,7 +183,7 @@ public class RegisterActivity extends AppCompatActivity {
                 String textMobile = editTextRegisterMobile.getText().toString();
                 String textPwd = editTextRegisterPwd.getText().toString();
                 String textConfirmPwd = editTextRegisterConfirmPwd.getText().toString();
-                String textUsername = editTextRegisterUsername.getText().toString(); //userName is used as textUserName
+                String textUsername = editTextRegisterUsername.getText().toString();
                 String textGender;
 
                 String mobileRegex = "^(?:\\+?88)?01[3-9]\\d{8}$";
@@ -284,44 +260,17 @@ public class RegisterActivity extends AppCompatActivity {
                     tvDistrictSpinner.setError(null);
                     textGender = radioButtonRegisterGenderSelected.getText().toString();
                     progressBar.setVisibility(View.VISIBLE);
-                    checkUsernameUniqueness(textUsername, textFullName, textEmail, textDoB, textGender, textMobile, textPwd);
+                    checkUsernameAvailability(textUsername, textFullName, textEmail, textDoB, textGender, textMobile, textPwd);
                 }
             }
         });
     }
 
-    private TextWatcher usernameTextWatcher = new TextWatcher() {
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            // Not needed for this implementation
-        }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-            // Not needed for this implementation
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-            if (usernameCheckRunnable != null) {
-                handler.removeCallbacks(usernameCheckRunnable);
-            }
-
-            // Schedule a new check after USERNAME_CHECK_DELAY milliseconds
-            usernameCheckRunnable = () -> {
-                String textUserName = s.toString().trim();
-                if (!TextUtils.isEmpty(textUserName)) {
-                    checkUsernameAvailability(textUserName);
-                }
-            };
-        }
-    };
-
-    private void checkUsernameAvailability(final String userName) {
+    private void checkUsernameAvailability(String username, String fullName, String email, String doB, String gender,
+                                           String mobile, String pwd) {
         DatabaseReference referenceUsername = FirebaseDatabase.getInstance().getReference("Usernames");
-        Query usernameQuery = referenceUsername.equalTo(userName);
-        usernameQuery.addListenerForSingleValueEvent(new ValueEventListener() {
 
+        referenceUsername.child(username).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
@@ -330,43 +279,13 @@ public class RegisterActivity extends AppCompatActivity {
                     editTextRegisterUsername.requestFocus();
                     progressBar.setVisibility(View.GONE);
                 } else {
-                    String email = String.valueOf(editTextRegisterEmail.getText());
-                    String pwd = String.valueOf(editTextRegisterPwd.getText());
-                    String doB = String.valueOf(editTextRegisterDoB.getText());
-                    String fullName = String.valueOf(editTextRegisterFullName);
-                    String mobile = String.valueOf(editTextRegisterMobile);
-                    String gender = String.valueOf(radioGroupRegisterGender);
-                    registerUser(fullName, email, doB, gender, mobile, pwd, userName);
+                    registerUser(fullName, email, doB, gender, mobile, pwd, username);
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Toast.makeText(RegisterActivity.this, "Error checking username availability", Toast.LENGTH_SHORT).show();
-                progressBar.setVisibility(View.GONE);
-            }
-        });
-    }
-
-    private void checkUsernameUniqueness(final String userName,final  String fullName, final String email, final String doB, final String gender, final String  mobile, final String pwd) {
-        DatabaseReference usersRef = db.getReference("users");
-        Query usernameQuery = usersRef.orderByChild("userName").equalTo(userName);
-        usernameQuery.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    Toast.makeText(RegisterActivity.this, "Username is already taken", Toast.LENGTH_SHORT).show();
-                    progressBar.setVisibility(View.GONE);
-                } else {
-                    // Username is unique, proceed with registration
-                    registerUser(fullName, email, doB, gender, mobile, pwd, userName);
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.e("FirebaseDatabase", "Error checking username uniqueness", databaseError.toException());
-                Toast.makeText(RegisterActivity.this, "Error checking username uniqueness", Toast.LENGTH_SHORT).show();
                 progressBar.setVisibility(View.GONE);
             }
         });

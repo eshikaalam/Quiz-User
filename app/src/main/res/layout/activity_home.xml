@@ -48,7 +48,8 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Custom Styled Button"
+        android:id="@+id/custom"
+        android:text="Profile"
         android:textColor="@color/white"
         android:textSize="14sp"
         android:textStyle="bold"

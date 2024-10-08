@@ -199,6 +199,8 @@
                 android:layout_alignStart="@id/ic_map"
                 android:hint="Loading"
                 android:text="Location"
+                android:textColor="@color/skyBlue"
+                android:textStyle="bold"
                 android:layout_marginStart="40dp"
                 android:layout_marginTop="20dp"
                 android:layout_below="@id/divider_mobile"
